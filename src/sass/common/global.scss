@@ -1,0 +1,11 @@
+html {}
+
+body {
+  font-family: sans-serif;
+  margin: 0;
+}
+
+.fa-trash,
+.fa-check {
+  pointer-events: none;
+}

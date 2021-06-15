@@ -1,0 +1,33 @@
+.select {
+  position: relative;
+
+  &::after {
+    content: "\25BC";
+    color: #fff;
+    padding: 7px 10px;
+    background: orange;
+    cursor: pointer;
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+}
+
+.select__filters {
+  background: none;
+  appearance: none;
+  outline: none;
+
+  color: #ff6f47;
+  min-width: 150px;
+  height: 100%;
+  padding-left: 10px;
+  padding-right: 35px;
+  border: 1px solid orange;
+  cursor: pointer;
+}
+
+.select__option {
+
+}
