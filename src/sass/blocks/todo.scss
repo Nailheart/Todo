@@ -1,98 +1,83 @@
 .todo {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  margin-top: 100px;
+  color: #333;
+  text-align: center;
+  min-width: 320px;
+  width: 100%;
+  max-width: 500px;
+  height: 90vh;
+  margin: 5vh auto;
+  padding-left: 15px;
+  padding-right: 15px;
+  box-sizing: border-box;
 }
 
 .todo__title {
+  font-size: 80px;
+  text-transform: uppercase;
   margin-top: 0;
+  margin-bottom: 40px;
+  opacity: .5;
 }
 
 .todo__wrap {
   display: flex;
+  flex-direction: column;
 }
 
 .todo__form {
-  display: flex;
-  margin-right: 10px;
+  margin-bottom: 20px;
+  position: relative;
 }
 
-.todo__form-input {
-  padding: 5px 10px;
-  border: 1px solid orange;
-  transition: .2s;
-  outline: none;
+.todo__input {
+  width: 100%;
+  padding: 5px 30px 5px 20px;
+  box-sizing: border-box;
 
-  &:hover,
-  &:focus {
-    border-color: orangered;
+  &::placeholder {
+    opacity: 1;
   }
 }
 
 .todo__form-submit {
-  color: #fff;
-  padding: 8px 10px;
-  background-color: orange;
-  border: 0;
-  transition: .2s;
+  width: 30px;
+  height: 100%;
   cursor: pointer;
-  outline: none;
-
-  &:hover,
-  &:focus {
-    background-color: orangered;
-  }
-}
-
-.todo__tasks {
-  margin-top: 20px;
+  position: absolute;
+  top: 0;
+  right: 0;
 }
 
 .todo__list {
+  display: grid;
+  gap: 20px;
   list-style: none;
-  margin: 0;
+  margin-top: 20px;
+  margin-bottom: 0;
   padding-left: 0;
-  min-width: 200px;
 }
 
 .todo__item {
   display: flex;
+  transition: .2s;
 
-  &--completed {
-    background-color: limegreen;
+  &--checked {
+    color: #fff;
     text-decoration: line-through;
-
-    .todo__item-button--check {
-      background-color: limegreen;
-    }
+    background-color: limegreen;
   }
 }
 
-.todo__item-text {
-  flex-grow: 1;
-  color: #000;
-  padding: 8px 10px;
-  background-color: rgba(cyan, .4);
-  transition: .2s;
+.todo__text {
+  flex: 1;
+  padding: 5px 20px;
+  text-align: left;
+  border: 1px solid brown;
 }
 
-.todo__item-button {
-  color: #fff;
-  padding: 8px 10px;
-  background-color: orange;
-  border: none;
-  border-right: 1px solid #fff;
-  transition: .2s;
+.todo__button {
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
   cursor: pointer;
-
-  &:last-child {
-    border-right: none;
-  }
-
-  &:hover,
-  &:focus {
-    background-color: orangered;
-  }
 }

@@ -13,15 +13,15 @@
 </head>
 <body>
 
-  <div class="todo">
-    <h1 class="todo__title">Todo list</h1>
+  <section class="todo">
+    <h1 class="todo__title">todos</h1>
 
     <div class="todo__wrap">
       <form class="todo__form" action="#">
-        <input class="todo__form-input" type="text">
+        <input class="todo__input" type="text" placeholder="Enter a new todo" autofocus>
 
         <button class="todo__form-submit" type="submit">
-          <i class="fas fa-plus-square"></i>
+          <i class="fas fa-plus-square">
         </button>
       </form>
 
@@ -34,10 +34,8 @@
       </div>
     </div>
 
-    <div class="todo__tasks">
-      <ul class="todo__list"></ul>
-    </div>
-  </div>
+    <ul class="todo__list"></ul>
+  </section>
 
   <script src="js/app.min.js"></script>
 </body>

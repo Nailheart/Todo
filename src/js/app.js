@@ -1,59 +1,80 @@
-const todoInput = document.querySelector('.todo__form-input');
-const todoSubmit = document.querySelector('.todo__form-submit');
+let todoItems = [];
+const todoForm = document.querySelector('.todo__form');
 const todoList = document.querySelector('.todo__list');
 const selectFilters = document.querySelector('.select__filters');
 
-document.addEventListener('DOMContentLoaded', getTodos);
-todoSubmit.addEventListener('click', addTodo);
-todoList.addEventListener('click', deleteCheck);
+
+document.addEventListener('DOMContentLoaded', () => {
+  const todos = localStorage.getItem('todos');
+
+  if (todos) {
+    todoItems = JSON.parse(todos);
+    todoItems.forEach(todo => {
+      renderTodo(todo);
+    });
+  }
+});
+
+todoForm.addEventListener('submit', e => {
+  e.preventDefault;
+
+  const input = document.querySelector('.todo__input');
+  const inputText = input.value.trim();
+
+  if (inputText !== '') {
+    addTodo(inputText);
+    input.value = '';
+    input.focus();
+  }
+});
+
+todoList.addEventListener('click', e => {
+  const todoText = e.target.parentElement.querySelector('.todo__text').innerText;
+  const todoIndex = todoItems.findIndex(item => item.text === todoText);
+
+  if(e.target.classList.contains('todo__button--check')) {
+    e.target.parentElement.classList.toggle('todo__item--checked');
+    todoItems[todoIndex].checked = !todoItems[todoIndex].checked;
+    localStorage.setItem('todos', JSON.stringify(todoItems));
+  }
+
+  if (e.target.classList.contains('todo__button--delete')) {
+    e.target.parentElement.remove();
+    todoItems.splice(todoIndex, 1);
+    localStorage.setItem('todos', JSON.stringify(todoItems));
+  }
+});
+
 selectFilters.addEventListener('click', filterTodo);
 
-
-function addTodo(e) {
-  e.preventDefault();
-
-  if (todoInput.value != '') {
-    // Create new task
-    const newTodo = document.createElement('li')
-    newTodo.classList.add('todo__item');
-    todoList.appendChild(newTodo);
-
-    // Create task text
-    const todoText = document.createElement('span');
-    todoText.classList.add('todo__item-text');
-    todoText.innerText = todoInput.value;
-    newTodo.appendChild(todoText);
-    saveLocalTodos(todoInput.value);
-
-    // Create check button
-    const checkButton = document.createElement('button');
-    checkButton.innerHTML = '<i class="fas fa-check"></i>';
-    checkButton.classList.add('todo__item-button');
-    checkButton.classList.add('todo__item-button--check');
-    newTodo.appendChild(checkButton);
-
-    // Create delete button
-    const deleteButton = document.createElement('button');
-    deleteButton.innerHTML = '<i class="fas fa-trash"></i>';
-    deleteButton.classList.add('todo__item-button');
-    deleteButton.classList.add('todo__item-button--delete');
-    newTodo.appendChild(deleteButton);
-
-    // Clear input
-    todoInput.value = '';
+function addTodo(inputText) {
+  const todo = {
+    text: inputText,
+    checked: false
   }
+
+  todoItems.push(todo);
+  renderTodo(todo);
 }
 
-function deleteCheck(e) {
-  const eventItem = e.target;
+function renderTodo(todo) {
+  localStorage.setItem('todos', JSON.stringify(todoItems));
 
-  if (eventItem.classList.contains('todo__item-button--delete')) {
-    eventItem.parentElement.remove();
-    removeLocalTodos(eventItem.parentElement);
+  const isChecked = todo.checked ? 'todo__item--checked' : '';
+  const todoItem = document.createElement('li');
+
+  if (isChecked !== '') {
+    todoItem.classList.add('todo__item', `${isChecked}`);
+  } else {
+    todoItem.classList.add('todo__item');
   }
-  if (eventItem.classList.contains('todo__item-button--check')) {
-    eventItem.parentElement.classList.toggle('todo__item--completed')
-  }
+
+  todoItem.innerHTML = `
+    <span class="todo__text">${todo.text}</span>
+    <button class="todo__button todo__button--check"><i class="fas fa-check"></i></button>
+    <button class="todo__button todo__button--delete"><i class="fas fa-trash"></i></button>
+  `;
+  todoList.appendChild(todoItem);
 }
 
 function filterTodo(e) {
@@ -66,7 +87,7 @@ function filterTodo(e) {
       break;
 
       case 'completed':
-        if (todo.classList.contains('todo__item--completed')) {
+        if (todo.classList.contains('todo__item--checked')) {
           todo.style.display = 'flex';
         } else {
           todo.style.display = 'none';
@@ -74,71 +95,12 @@ function filterTodo(e) {
       break;
 
       case 'uncompleted':
-        if (!todo.classList.contains('todo__item--completed')) {
+        if (!todo.classList.contains('todo__item--checked')) {
           todo.style.display = 'flex';
         } else {
           todo.style.display = 'none';
         }
       break;
     }
-  });
-}
-
-function saveLocalTodos(todo) {
-  let todos;
-  if (localStorage.getItem('todos') === null) {
-    todos = [];
-  } else {
-    todos = JSON.parse(localStorage.getItem('todos'));
-  }
-  todos.push(todo);
-  localStorage.setItem('todos', JSON.stringify(todos));
-}
-
-function removeLocalTodos(todo) {
-  let todos;
-  if (localStorage.getItem('todos') === null) {
-    todos = [];
-  } else {
-    todos = JSON.parse(localStorage.getItem('todos'));
-  }
-  const todoIndex = todo.children[0].innerText;
-  todos.splice(todos.indexOf(todoIndex), 1);
-  localStorage.setItem('todos', JSON.stringify(todos));
-}
-
-function getTodos() {
-  let todos;
-  if (localStorage.getItem('todos') === null) {
-    todos = [];
-  } else {
-    todos = JSON.parse(localStorage.getItem('todos'));
-  }
-
-  todos.forEach((todo) => {
-    // Create new task
-    const newTodo = document.createElement('li')
-    newTodo.classList.add('todo__item');
-    todoList.appendChild(newTodo);
-
-    // Create task text
-    const todoText = document.createElement('span');
-    todoText.classList.add('todo__item-text');
-    todoText.innerText = todo;
-    newTodo.appendChild(todoText);
-
-    // Create check button
-    const checkButton = document.createElement('button');
-    checkButton.innerHTML = '<i class="fas fa-check"></i>';
-    checkButton.classList.add('todo__item-button');
-    checkButton.classList.add('todo__item-button--check');
-    newTodo.appendChild(checkButton);
-
-    // Create delete button
-    const deleteButton = document.createElement('button');
-    deleteButton.innerHTML = '<i class="fas fa-trash"></i>';
-    deleteButton.classList.add('todo__item-button');
-    deleteButton.classList.add('todo__item-button--delete');
-    newTodo.appendChild(deleteButton);
   });
 }
