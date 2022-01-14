@@ -1,4 +1,7 @@
 .todo {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
   text-align: center;
   width: 100%;
   max-width: 500px;
@@ -77,6 +80,7 @@
 
   &--checked {
     text-decoration: line-through;
+    text-decoration-color: var(--red);
   }
 }
 
@@ -102,7 +106,7 @@
     margin-right: 5px;
 
     &:hover,
-    &:focus {
+    &:focus-visible {
       color: var(--white);
       background-color: var(--green);
     }

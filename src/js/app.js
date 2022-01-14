@@ -9,13 +9,13 @@
 
     if (todos) {
       todoItems = JSON.parse(todos);
-      todoItems.forEach(todo => {
+      todoItems.forEach((todo) => {
         renderTodo(todo);
       });
     }
   });
 
-  todoForm.addEventListener('submit', e => {
+  todoForm.addEventListener('submit', (e) => {
     e.preventDefault;
 
     const input = document.querySelector('.todo__input');
@@ -28,7 +28,7 @@
     }
   });
 
-  todoList.addEventListener('click', e => {
+  todoList.addEventListener('click', (e) => {
     const todoText = e.target.parentElement.querySelector('.todo__text').textContent;
     const todoIndex = todoItems.findIndex(item => item.text === todoText);
 
