@@ -4,12 +4,12 @@ import cheerio from 'gulp-cheerio';
 import concat from 'gulp-concat';
 import csso from 'gulp-csso';
 import htmlmin from 'gulp-htmlmin';
-import imagemin from 'gulp-imagemin';
+import imagemin, { mozjpeg, optipng } from 'gulp-imagemin';
 import plumber from 'gulp-plumber';
 import rename from 'gulp-rename';
 import sourcemap from 'gulp-sourcemaps';
 import svgmin from 'gulp-svgmin';
-import sass from 'gulp-sass';
+import sass from 'gulp-dart-sass';
 import svgstore from 'gulp-svgstore';
 import terser from 'gulp-terser';
 import webp from 'gulp-webp';
@@ -100,15 +100,8 @@ export const sprite = () => src(`${path.img.root}/**/*.svg`)
 // Imagemin
 export const img = () => src(`${path.img.root}**/*`)
   .pipe(imagemin([
-    imagemin.mozjpeg({quality: 75, progressive: true}),
-    imagemin.optipng({optimizationLevel: 3}),
-    imagemin.svgo({
-      plugins: [
-        { removeViewBox: false },
-        { cleanupIDs: true },
-        { removeDimensions: true }
-      ]
-    })
+    mozjpeg({quality: 75, progressive: true}),
+    optipng({optimizationLevel: 3}),
   ]))
   .pipe(dest(path.img.save))
   .pipe(webp({quality: 90}))
